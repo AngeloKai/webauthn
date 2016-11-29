@@ -417,7 +417,7 @@ When this method is invoked, the user agent MUST execute the following algorithm
 
 6. If {{ScopedCredentialOptions/excludeList}} is undefined, set it to the empty list.
 
-7. If {{ScopedCredentialOptions/extensions}} was specified, process any extensions supported by this client platform, to produce
+7. If {{ScopedCredentialOptions/extensions}} is [=present=], process any extensions supported by this client platform, to produce
     the extension data that needs to be sent to the authenticator. If an error is encountered while processing an extension,
     skip that extension and do not produce any extension data for it. Call the result of this processing |clientExtensions|.
 
@@ -492,7 +492,7 @@ When this method is invoked, the user agent MUST execute the following algorithm
         and |rpIdHash| to the SHA-256 hash of |rpId|. Otherwise, reject |promise| with a <a>DOMException</a> whose name is
         "SecurityError", and terminate this algorithm.
 
-4. If {{AssertionOptions/extensions}} was specified, process any extensions supported by this client platform, to produce the
+4. If {{AssertionOptions/extensions}} is [=present=], process any extensions supported by this client platform, to produce the
     extension data that needs to be sent to the authenticator. If an error is encountered while processing an extension, skip
     that extension and do not produce any extension data for it. Call the result of this processing |clientExtensions|.
 
