@@ -393,10 +393,10 @@ This method takes the following parameters:
 
 When this method is invoked, the user agent MUST execute the following algorithm:
 
-1. If the {{ScopedCredentialOptions/timeoutSeconds}} member of {{options}} is <a>present</a>, check if its value lies 
+1. If the {{ScopedCredentialOptions/timeoutMilliseconds}} member of {{options}} is <a>present</a>, check if its value lies 
     within a reasonable range as defined by
     the platform and if not, correct it to the closest value lying within that range. Set |adjustedTimeout| to this adjusted
-    value. If {{ScopedCredentialOptions/timeoutSeconds}} was not specified, then set |adjustedTimeout| to a platform-specific
+    value. If {{ScopedCredentialOptions/timeoutMilliseconds}} was not specified, then set |adjustedTimeout| to a platform-specific
     default.
 
 2. Let |promise| be a new <a data-lt="Promises">Promise</a>. Return |promise| and start a timer for |adjustedTimeout| seconds.
@@ -490,9 +490,9 @@ This method takes the following parameters:
 
 When this method is invoked, the user agent MUST execute the following algorithm:
 
-1. If the {{AssertionOptions/timeoutSeconds}} member of {{options}} is <a>present</a>, check if its value lies within a 
+1. If the {{AssertionOptions/timeoutMilliseconds}} member of {{options}} is <a>present</a>, check if its value lies within a 
     reasonable range as defined by the platform and if not, correct it to the closest value lying within that range. Set
-    |adjustedTimeout| to this adjusted value. If {{AssertionOptions/timeoutSeconds}} is not <a>present</a>, then set
+    |adjustedTimeout| to this adjusted value. If {{AssertionOptions/timeoutMilliseconds}} is not <a>present</a>, then set
     |adjustedTimeout| to a platform-specific default.
 
 2. Let |promise| be a new <a data-lt="Promises">Promise</a>. Return |promise| and start a timer for |adjustedTimeout| seconds.
@@ -639,7 +639,7 @@ authorizing an authenticator with which to complete the operation.
 
 <pre class="idl">
     dictionary ScopedCredentialOptions {
-        unsigned long                           timeoutSeconds;
+        unsigned long                           timeoutMilliseconds;
         USVString                               rpId;
         sequence < ScopedCredentialDescriptor > excludeList = [];
         Attachment                              attachment;
@@ -651,7 +651,7 @@ authorizing an authenticator with which to complete the operation.
 <div dfn-for="ScopedCredentialOptions">
     This dictionary is used to supply additional options when creating a new credential. All these parameters are optional.
 
-    - The <dfn>timeoutSeconds</dfn> parameter specifies a time, in seconds, that the caller is willing to wait for the call to
+    - The <dfn>timeoutMilliseconds</dfn> parameter specifies a time, in milliseconds, that the caller is willing to wait for the call to
         complete. This is treated as a hint, and may be overridden by the platform.
 
     - The <dfn>rpId</dfn> parameter explicitly specifies the RP ID that the credential should be associated with. If it is
@@ -743,7 +743,7 @@ user consent to a specific transaction. The structure of these signatures is def
 
 <pre class="idl">
     dictionary AssertionOptions {
-        unsigned long                           timeoutSeconds;
+        unsigned long                           timeoutMilliseconds;
         USVString                               rpId;
         sequence < ScopedCredentialDescriptor > allowList = [];
         AuthenticationExtensions                extensions;
@@ -753,7 +753,7 @@ user consent to a specific transaction. The structure of these signatures is def
 <div dfn-for="AssertionOptions">
     This dictionary is used to supply additional options when generating an assertion. All these parameters are optional.
 
-    - The optional <dfn>timeoutSeconds</dfn> parameter specifies a time, in seconds, that the caller is willing to wait for the
+    - The optional <dfn>timeoutMilliseconds</dfn> parameter specifies a time, in milliseconds, that the caller is willing to wait for the
         call to complete. This is treated as a hint, and may be overridden by the platform.
 
     - The optional <dfn>rpId</dfn> parameter specifies the rpId claimed by the caller. If it is omitted, it will be assumed to
@@ -2461,7 +2461,7 @@ The sample code for generating and registering a new key follows:
         }
     ];
     var challenge = "Y2xpbWIgYSBtb3VudGFpbg";
-    var options = { timeoutSeconds: 300,  // 5 minutes
+    var options = { timeoutMilliseconds: 60000,  // 1 minute
                     excludeList: [],      // No excludeList
                     extensions: {"webauthn.location": true}  // Include location information
                                                    // in attestation
@@ -2524,7 +2524,7 @@ then the sample code for performing such an authentication might look like this:
 
     var challenge = "Y2xpbWIgYSBtb3VudGFpbg";
     var options = {
-                    timeoutSeconds = 300,  // 5 minutes
+                    timeoutMilliseconds = 60000,  // 1 minute
                     allowList: [{ type: "ScopedCred" }]
                   };
 
@@ -2556,7 +2556,7 @@ extension for transaction authorization.
     };
 
     var options = {
-                    timeoutSeconds: 300,  // 5 minutes
+                    timeoutMilliseconds: 60000,  // 1 minute
                     allowList: [acceptableCredential1, acceptableCredential2];
                     extensions: { 'webauthn.txauth.simple':
                        "Wave your hands in the air like you just don't care" };
